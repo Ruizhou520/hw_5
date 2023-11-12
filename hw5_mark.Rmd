@@ -33,7 +33,7 @@ q1:
 
 2.  $\mathbb{P}(A|B)=0 \quad if \space A\cap B = \emptyset$, if $\mathbb{P}(A\cap B)=0$, then except for the case before, it also may because $\mathbb{P}(A)=0 \quad or \quad \mathbb{P}(B)=0$ in these cases, if one event probability is 0, then the probability for both events happen is also 0. it still holds
 
-3.  $\mathbb{P}(A|B)=\frac{\mathbb{P}(B)}{\mathbb{P}(A)}$
+3.  $\mathbb{P}(A|B)=\frac{\mathbb{P}(B)}{\mathbb{P}(B)}=1$
 
 4.  yes, $\mathbb{P}(A|\Omega)=\frac{\mathbb{P}(A\cap \Omega)}{\mathbb{P}(\Omega)}=\frac{\mathbb{P}(A)}{1}=\mathbb{P}(A)$
 
@@ -85,17 +85,15 @@ q1:
 
 q2:
 
-
 ## 2. random variables and discrete random variables
 
 ### 2.1 expectation and variance
 
 q1: suppose X and Y are independent random variables, prove Cov(X,Y) = 0
 
-ans: 
+ans:
 
-for a given random variable A~i~, let $f_i(A_i) =  A_i - \tilde{A_i}$
-$$
+for a given random variable A~i~, let $f_i(A_i) = A_i - \tilde{A_i}$ $$
 \because X,Y \; are \; independent\\
 \therefore E(f_1(X)f_2(Y)) = E(f_1(X))E(f_2(Y))\\
 \because f_1(X) = X-\tilde{X},\quad f_2(Y)=Y-\tilde{Y}\\
@@ -104,11 +102,20 @@ E[f_2(Y)] = E[Y-E(Y)]=E(Y)-E(Y)=0\\
 \therefore Cov(X,Y)=E[(X-\tilde{X})(Y-\tilde{Y})]\\=E(f_1(X)f_2(Y))=E(f_1(X))E(f_2(Y)) = 0
 $$
 
+given ans:
+
+$$
+Cov(X,Y) = E[(X-\tilde{X})(Y-\tilde{Y})]\\=E[XY]-E[X]E[Y]\\
+let\; f_i=x_i\\
+E[XY]=E[f_1(X)f_2(Y)]=E[f_1(X)]E[f_2(Y)]=E[X]E[Y]\\
+so \; Cov(X,Y)=0 
+$$
+
 ### 2.2 distribution
 
 q1:
 
-1. probability mass function $p_X$ is:
+1.  probability mass function $p_X$ is:
 
 $$
 p_X(X) = \begin{cases}
@@ -119,39 +126,36 @@ p_X(X) = \begin{cases}
 \end{cases}
 $$
 
-2. expectation of X:
+2.  expectation of X:
 
 $$
 E(X) = 0*P(X=0)+3*P(X=3)+10*P(X=10)\\
 =3\alpha+10\beta
 $$
 
-3. variance of X:
+3.  variance of X: note that $E(\tilde{X})=\tilde{X}$
 
 $$
-Var(X) = E[(X-\tilde{X})^2]=\alpha*(3-\tilde{X})^2+\beta*(10-\tilde{X})^2\\
-=9\alpha^3-18\alpha^2+69\alpha^2\beta+60\alpha\beta^2-100\beta^2-20\alpha\beta+9\alpha+100\beta
+Var(X) = E[(X-\tilde{X})^2]=E[X^2]-E(X)^2\\
+=9\alpha+100\beta-9\alpha^2-100\beta^2-60\alpha\beta
 $$
 
-
-
-
-4. standard deviation of X:
+4.  standard deviation of X:
 
 $$
 Std(X) = \sqrt{Var(X)}\\
-=\sqrt{9\alpha^3-18\alpha^2+69\alpha^2\beta+60\alpha\beta^2-100\beta^2-20\alpha\beta+9\alpha+100\beta}
+=\sqrt{9\alpha+100\beta-9\alpha^2-100\beta^2-60\alpha\beta}
 $$
 
 q2: distribution and distribution function
 
-1. distribution P~X~ of X:
+1.  distribution P~X~ of X:
 
 $$
 P(X) = (1-\alpha-\beta)\mathbf{1}_X(0)+\alpha\mathbf{1}_X(3)+\beta\mathbf{1}_X(10)
 $$
 
-2. distribution function F~X~ of X:
+2.  distribution function F~X~ of X:
 
 $$
 F_X(x)=\mathbb{P}(X\le x)\\
@@ -168,15 +172,14 @@ q3: variance and covariance
 $$
 Var(Y) = Var(X_1+X_2+X_3+X_4...+X_n)\\
 =\sum_{i=1}^nVar(X_i)\\
-=n(9\alpha^3+69\alpha^2\beta+60\alpha\beta^2-18\alpha^2-100\beta^2-20\alpha\beta+9\alpha+100\beta)
-$$
-q4: explore the distribution of the sum of n independent random variables when n is large
+=n(9\alpha+100\beta-9\alpha^2-100\beta^2-60\alpha\beta)
+$$ q4: explore the distribution of the sum of n independent random variables when n is large
 
 since X~1~, X~2~,...,X~n~ are discrete, the values of each variable are only integer, so the combination values of these variables are also integer(say, discrete). Therefore, the random variable Y is discrete
 
 let Y be X~1~+X~2~+X~3~+...+X~n~. $\alpha=0.2$ and $\beta=0.3$
 
-step1: 
+step1:
 
 write a function called **Gen_X_numbers**, taking a number n as input and return a vector containing n random numbers from the distribution of X
 
@@ -254,7 +257,7 @@ df_sample %>% ggplot(aes(x=Y))+
   geom_bar()
 ```
 
-step4: 
+step4:
 
 increase values of n to 20, the sample range is [0, 200], the maximum is around 150, and the minimum is around 3
 
@@ -267,9 +270,12 @@ df_sample %>% ggplot(aes(x=Y))+
 ```
 
 show the maximum and minimum:
+
 ```{r}
 max(df_sample$Y)
 min(df_sample$Y)
+range(df_sample$Y)
+diff(range(df_sample$Y))
 ```
 
 step5:
@@ -285,7 +291,10 @@ df_sample %>% ggplot(aes(x=Y))+
 ```
 
 show the maximum and minimum:
+
 ```{r}
 max(df_sample$Y)
 min(df_sample$Y)
+range(df_sample$Y)
+diff(range(df_sample$Y))
 ```
