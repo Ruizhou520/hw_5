@@ -1,0 +1,291 @@
+---
+title: "hw5_mark"
+author: "Ruizhou Peng"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+first load packages
+
+```{r}
+library(tidyverse)
+```
+
+## 1. conditional probability, bayes rule and independence
+
+### 1.1 Bayes theroem
+
+q1:
+
+$$
+\because\mathbb{P}(A)=0.9 \quad \mathbb{P}(B|A)=0.8\\
+\therefore\mathbb{P}(A\cap B) = 0.72\\
+\because\mathbb{P}(B|A^c)=1-\mathbb{P}(B^c|A^c)=0.25\\
+\therefore\mathbb{P}(B)=\mathbb{P}(B|A^c)*\mathbb{P}(A^c)+\mathbb{P}(B|A)*\mathbb{P}(A)=0.745\\
+so \quad \mathbb{P}(A|B)=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B)}=0.966
+$$
+
+### 1.2 conditional probabilities
+
+q1:
+
+1.  $\because A\subset B \quad \therefore\mathbb{P}(A|B)=\frac{\mathbb{P(A)}}{\mathbb{P}(B)}$ if $\mathbb{P}(B\backslash A)=0$, then $\mathbb{P}(A|B)=1$
+
+2.  $\mathbb{P}(A|B)=0 \quad if \space A\cap B = \emptyset$, if $\mathbb{P}(A\cap B)=0$, then except for the case before, it also may because $\mathbb{P}(A)=0 \quad or \quad \mathbb{P}(B)=0$ in these cases, if one event probability is 0, then the probability for both events happen is also 0. it still holds
+
+3.  $\mathbb{P}(A|B)=\frac{\mathbb{P}(B)}{\mathbb{P}(A)}$
+
+4.  yes, $\mathbb{P}(A|\Omega)=\frac{\mathbb{P}(A\cap \Omega)}{\mathbb{P}(\Omega)}=\frac{\mathbb{P}(A)}{1}=\mathbb{P}(A)$
+
+5.  $\mathbb{P}(B|A\cap C)=\frac{\mathbb{P}(B\cap A \cap C)}{\mathbb{P}(A\cap C)}\\\mathbb{P}(A\cap C)=\mathbb{P}(A|C)\mathbb{P}(C)\\so \quad \mathbb{P}(B\cap A \cap C)=\mathbb{P}(B|A\cap C)\mathbb{P}(A|C)\mathbb{P}(C)$
+
+6.  $\mathbb{P}(A|B\cap C)*\mathbb{P}(B|C)*\mathbb{P}(C)= \mathbb{P}(B\cap A \cap C) = \mathbb{P}(B|A\cap C)\mathbb{P}(A|C)\mathbb{P}(C)\\\mathbb{P}(A|B\cap C)=\frac{\mathbb{P}(B|A\cap C)\mathbb{P}(A|C)}{\mathbb{P}(B|C)}$
+
+q2:
+
+suppose the weather is windy is event A. flight being canceled is event B
+
+1.  P(B\|A) = 0.3
+
+2.  P(B\|A^c^) = 0.1
+
+3.  P(A) = 0.2
+
+calculate P(B^c^):
+
+$$
+\because\mathbb{P}(A^c) = 0.8\\
+\therefore\mathbb{P}(B) = \mathbb{P}(A^c)*\mathbb{P}(B|A^c)+\mathbb{P}(A)*\mathbb{P}(B|A)=0.14\\
+\therefore \mathbb{P}(B^c) = 0.86
+$$
+
+### 1.3 mutual independence and pair-wise independence
+
+q1: pair-wise independent
+
+$$
+A\cap B = \{(1,1,0)\}\\
+\mathbb{P}(A\cap B) = \frac{1}{4}=\mathbb{P}(A)\mathbb{P}(B)
+$$
+
+same reason for $\mathbb{P}(A\cap C) = \mathbb{P}(A)\mathbb{P}(C)$ and $\mathbb{P}(B\cap C) = \mathbb{P}(B)\mathbb{P}(C)$
+
+q2: mutually independent
+
+$$
+A \cap B \cap C = \emptyset\\
+\mathbb{P}(A \cap B \cap C)=0\ne\mathbb{P}(A)\mathbb{P}(B)\mathbb{P}(C)
+$$
+
+so A,B,C not mutually independent
+
+### 1.4 the monty hall problem
+
+q1:
+
+q2:
+
+
+## 2. random variables and discrete random variables
+
+### 2.1 expectation and variance
+
+q1: suppose X and Y are independent random variables, prove Cov(X,Y) = 0
+
+ans: 
+
+for a given random variable A~i~, let $f_i(A_i) =  A_i - \tilde{A_i}$
+$$
+\because X,Y \; are \; independent\\
+\therefore E(f_1(X)f_2(Y)) = E(f_1(X))E(f_2(Y))\\
+\because f_1(X) = X-\tilde{X},\quad f_2(Y)=Y-\tilde{Y}\\
+E[f_1(X)] = E[X-E(X)]=E(X)-E(X)=0\\
+E[f_2(Y)] = E[Y-E(Y)]=E(Y)-E(Y)=0\\
+\therefore Cov(X,Y)=E[(X-\tilde{X})(Y-\tilde{Y})]\\=E(f_1(X)f_2(Y))=E(f_1(X))E(f_2(Y)) = 0
+$$
+
+### 2.2 distribution
+
+q1:
+
+1. probability mass function $p_X$ is:
+
+$$
+p_X(X) = \begin{cases}
+1-\alpha-\beta, \quad X=0\\
+\alpha, \quad X=3\\
+\beta, \quad X=10\\
+0, otherwise
+\end{cases}
+$$
+
+2. expectation of X:
+
+$$
+E(X) = 0*P(X=0)+3*P(X=3)+10*P(X=10)\\
+=3\alpha+10\beta
+$$
+
+3. variance of X:
+
+$$
+Var(X) = E[(X-\tilde{X})^2]=\alpha*(3-\tilde{X})^2+\beta*(10-\tilde{X})^2\\
+=9\alpha^3-18\alpha^2+69\alpha^2\beta+60\alpha\beta^2-100\beta^2-20\alpha\beta+9\alpha+100\beta
+$$
+
+
+
+
+4. standard deviation of X:
+
+$$
+Std(X) = \sqrt{Var(X)}\\
+=\sqrt{9\alpha^3-18\alpha^2+69\alpha^2\beta+60\alpha\beta^2-100\beta^2-20\alpha\beta+9\alpha+100\beta}
+$$
+
+q2: distribution and distribution function
+
+1. distribution P~X~ of X:
+
+$$
+P(X) = (1-\alpha-\beta)\mathbf{1}_X(0)+\alpha\mathbf{1}_X(3)+\beta\mathbf{1}_X(10)
+$$
+
+2. distribution function F~X~ of X:
+
+$$
+F_X(x)=\mathbb{P}(X\le x)\\
+F_X(x)= \begin{cases}
+0, \quad -\infty\le x<0\\
+1-\alpha-\beta, \quad 0\le x<3\\
+1-\beta, \quad 3\le x < 10\\
+1, \quad 10 \le x
+\end{cases}
+$$
+
+q3: variance and covariance
+
+$$
+Var(Y) = Var(X_1+X_2+X_3+X_4...+X_n)\\
+=\sum_{i=1}^nVar(X_i)\\
+=n(9\alpha^3+69\alpha^2\beta+60\alpha\beta^2-18\alpha^2-100\beta^2-20\alpha\beta+9\alpha+100\beta)
+$$
+q4: explore the distribution of the sum of n independent random variables when n is large
+
+since X~1~, X~2~,...,X~n~ are discrete, the values of each variable are only integer, so the combination values of these variables are also integer(say, discrete). Therefore, the random variable Y is discrete
+
+let Y be X~1~+X~2~+X~3~+...+X~n~. $\alpha=0.2$ and $\beta=0.3$
+
+step1: 
+
+write a function called **Gen_X_numbers**, taking a number n as input and return a vector containing n random numbers from the distribution of X
+
+first generate a random number from the uniform distribution of [0,1], if number is in [0, 0.5), assign 0, otherwise, from [0.5, 0.7) assign 3, [0.7, 1] assign 10
+
+```{r}
+# use runif to generate a random deviate
+
+Gen_X_numbers <- function(n){
+  # n is the number of elements
+  # return a vector
+  
+  vec <- runif(n, 0, 1)
+  #print(vec)
+  vec[vec<0.5] = 0
+  vec[0.5<=vec & vec<0.7] = 3
+  vec[0.7<=vec & vec<=1] = 10
+  
+  return(vec)
+}
+```
+
+check
+
+```{r}
+Gen_X_numbers(4)
+```
+
+step2:
+
+write a function **Gen_Y_samples** taking two arguments as input and returning a data frame. The function should take *m* and *n* as input and return a data frame which has a column named Y and m rows, each row the value of Y is the sum of vector~X~
+
+```{r}
+Gen_Y_samples <- function(m,n){
+  # m is the rows of Y
+  # n is the number of variable X
+  
+  index <- seq(1,m)
+  
+  compute_one_Y <- function(n){
+    X_seq <- Gen_X_numbers(n)
+    # print(sum(X_seq))
+    
+    return(sum(X_seq))
+  }
+  
+  # attention!
+  # map_dbl the second argument is a function
+  # if use compute_one_Y(n), it is a function call 
+  # and return is a number not a function
+  # so we need to use "~" to pass index to it
+  # although we don't need it
+  Y <- map_dbl(index, ~compute_one_Y(n))
+  # print(Y)
+  return(data.frame(index,Y))
+}
+```
+
+check
+
+```{r}
+Gen_Y_samples(5,2)
+```
+
+step3:
+
+let n = 3 and m = 50000, use bar plot to show the samples of Y
+
+```{r}
+df_sample <- Gen_Y_samples(50000, 3)
+
+# use bar to count number
+# col is different using x,y aes to show other metrics
+df_sample %>% ggplot(aes(x=Y))+
+  geom_bar()
+```
+
+step4: 
+
+increase values of n to 20, the sample range is [0, 200], the maximum is around 150, and the minimum is around 3
+
+```{r}
+df_sample <- Gen_Y_samples(50000, 20)
+
+# use bar to count number
+df_sample %>% ggplot(aes(x=Y))+
+  geom_bar()
+```
+
+show the maximum and minimum:
+```{r}
+max(df_sample$Y)
+min(df_sample$Y)
+```
+
+step5:
+
+increase n to 1000, E(X) = 3\*0.2+10\*0.3 = 3.6, E(Y) = n\*E(X) = 3600
+
+```{r}
+df_sample <- Gen_Y_samples(50000, 1000)
+
+# use bar to count number
+df_sample %>% ggplot(aes(x=Y))+
+  geom_bar()
+```
+
+show the maximum and minimum:
+```{r}
+max(df_sample$Y)
+min(df_sample$Y)
+```
